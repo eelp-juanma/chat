@@ -7,6 +7,7 @@ class PusherController < ApplicationController
         :name => "User #{user_id}"
       }
     })
+
     render :json => response
   end
 end

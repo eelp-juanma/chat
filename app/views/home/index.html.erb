@@ -1,9 +1,8 @@
  <div id="chat_widget_container">
     <div id="chat_widget_main_container">
        <div id="chat_widget_messages_container">
-          <div id="chat_widget_messages">
-             chat messages go here
-          </div>
+         <ul id="chat_widget_messages">
+         </ul>
        </div>
        <div id="chat_widget_online">
           <p>Who's Online (<span id="chat_widget_counter">0</span>)</p>
@@ -13,19 +12,32 @@
        </div>
        <div class="clear"></div>
        <div id="chat_widget_input_container">
-          <form method="post" id="chat_widget_form">
-             <input type="text" id="chat_widget_input" />
+          <form action="/home/send_comment" method="post" id="form">
+             <input type="text" id="input" />
              <input type="submit" value="Chat" id="chat_widget_button" />
           </form>
        </div>
     </div>
  </div>
 <%= javascript_tag do %>
-  console.log("hey mae");
-  pusher = new Pusher('f56593b7930f439b27e6');
-  nettuts_channel = pusher.subscribe('presence-nettuts'); //join the presence-nettuts channel
+    var pusher = new Pusher('c45dc1d4310a0ac9d263', {
+      cluster: 'eu',
+      encrypted: true,
+      auth: {
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+      }
+    });
+  channel = pusher.subscribe('presence-test_channel');
 
-  nettuts_channel.bind('pusher:subscription_succeeded', function(members) {
+  var callback = function(data) {
+    console.log('callback');
+    $('#chat_widget_messages').append("<li>" + data.user_id + ":" + data.message + "</li>");
+  };
+  channel.bind('send_message', callback);
+
+  channel.bind('pusher:subscription_succeeded', function(members) {
     var whosonline_html = '';
     members.each(function(member) {
       whosonline_html += '<li class="chat_widget_member" id="chat_widget_member_' + 
@@ -34,13 +46,23 @@
     $('#chat_widget_online_list').html(whosonline_html);
   });
 
-  nettuts_channel.bind('pusher:member_added', function(member) {
+  channel.bind('pusher:member_added', function(member) {
       $('#chat_widget_online_list').append('<li class="chat_widget_member" ' +
       'id="chat_widget_member_' + member.id + '">' + member.info.name + '</li>');
    });
 
-  nettuts_channel.bind('pusher:member_removed', function(member) {
+  channel.bind('pusher:member_removed', function(member) {
     console.log("here");
      $('#chat_widget_member_' + member.id).remove();
+  });
+
+  $('#form').submit(function(event) {
+  console.log('submit');
+    event.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '/home/send_comment',
+      data: { message: $('#input').val(), user_id: channel.members.me.info.name }
+    });
   });
 <% end %>
