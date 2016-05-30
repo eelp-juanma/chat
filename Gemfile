@@ -11,6 +11,15 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'pusher'
 
+gem 'puma'
+
+group :development do
+  gem 'capistrano', '~> 3.1'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano3-puma'
+  gem 'capistrano-bundler', '~> 1.1.2'
+end
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
