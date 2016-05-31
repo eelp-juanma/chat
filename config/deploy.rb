@@ -4,6 +4,9 @@ lock '3.5.0'
 set :application, 'chat'
 set :repo_url, 'git@github.com:eelp-juanma/chat.git'
 
+set :rbent_type, :user
+set :rbenv_ruby, '2.3.0'
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
@@ -21,7 +24,7 @@ set :repo_url, 'git@github.com:eelp-juanma/chat.git'
 set :format_options, command_output: true, log_file: 'log/capistrano.log', color: :auto, truncate: :auto
 
 # Default value for :pty is false
-# set :pty, true
+set :pty, true
 
 # Default value for :linked_files is []
 #set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')

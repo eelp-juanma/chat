@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-PusherPresence::Application.config.secret_key_base = '7a85f9639293b4124ff687ccad88d2086049e440ccf3ed68da37d8e0cbdf44020a22acd0f8bba528e53a5d645817ac58b6e381ae896af245fd110251c29fd750'
+EelpBackend::Application.config.secret_key_base = '7a85f9639293b4124ff687ccad88d2086049e440ccf3ed68da37d8e0cbdf44020a22acd0f8bba528e53a5d645817ac58b6e381ae896af245fd110251c29fd750'

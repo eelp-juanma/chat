@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-PusherPresence::Application.load_tasks
+Eelpbackend::Application.load_tasks
